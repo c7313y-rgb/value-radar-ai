@@ -21,6 +21,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  issues: write      # 高重要度アラートの Issue 自動作成に必要
 
 concurrency:
   group: daily-scan
