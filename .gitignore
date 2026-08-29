@@ -1,12 +1,16 @@
+# Python
 __pycache__/
 *.py[cod]
 .venv/
 venv/
+.pytest_cache/
+
+# ビルド成果物（scripts/build_single_file.py で再生成できる）
+dist/
+
+# エディタ・OS
 .DS_Store
-logs/
 .idea/
 .vscode/
 node_modules/
-dist/
-.pytest_cache/
-.DS_Store
+logs/
