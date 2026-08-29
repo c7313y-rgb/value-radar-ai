@@ -1,4 +1,17 @@
-/* VALUE RADAR AI — 単一テーマのCSS。ビルド不要。 */
+/* VALUE RADAR AI — ビルド不要のCSS。
+ *
+ * 配色の考え方:
+ *   計器盤（instrument panel）として設計している。地色は純黒ではなく
+ *   わずかに黄み寄りのニュートラル（#121211系）。数値と系列色が浮く。
+ *   系列色は colorblind-safe を検証済みのカテゴリカル8色から採用し、
+ *   「大きさ」は青の単一色相ランプ、「状態」は good/warning/serious/critical
+ *   の専用色に分けている（アクセント色を状態色に流用しない）。
+ *
+ * テーマ:
+ *   ダーク優先。:root がダークの完全な定義、
+ *   prefers-color-scheme: light と [data-theme="light"] でトークンだけを差し替える。
+ *   個々のコンポーネントは必ずトークン経由で色を取る。
+ */
 
 :root {
   color-scheme: dark;
@@ -31,12 +44,40 @@
   --seq-500:#256abf; --seq-600:#184f95; --seq-700:#0d366b;
 
   --radius: 10px;
-  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  /* 計器の目盛りの顔つきを持つ等幅を、数値・ラベル・ロゴタイプに使う。
+     日本語本文は端末のシステム書体に任せる（可読性と読み込み速度のため）。 */
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   --sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP",
           "Yu Gothic UI", Meiryo, sans-serif;
 }
 
+/* ライトテーマ。トークンだけを差し替える。
+   ビューアの状態は3つある：
+     ・スタンプなし  → OS の prefers-color-scheme で決まる
+     ・data-theme="light" → 明示的にライト（OSがダークでも勝つ）
+     ・data-theme="dark"  → 明示的にダーク（OSがライトでも勝つ）
+   そのため同じトークン群を2箇所で定義する。 */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+
+  color-scheme: light;
+  --surface-0: #f4f3f0;
+  --surface-1: #fcfcfb;
+  --surface-2: #f0efec;
+  --surface-3: #e6e5e1;
+  --border:    #d6d5d0;
+  --border-soft:#e6e5e1;
+  --text-1: #0b0b0b;
+  --text-2: #52514e;
+  --text-3: #7b7a74;
+  --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a;
+  --series-4: #eda100; --series-5: #e87ba4; --series-6: #4a3aa7;
+  --good:#0f7d57; --warning:#a06a00; --serious:#c2471c; --critical:#c93b3a;
+  --seq-400:#2a78d6; --seq-500:#256abf;
+  }
+}
 :root[data-theme="light"] {
+
   color-scheme: light;
   --surface-0: #f4f3f0;
   --surface-1: #fcfcfb;
@@ -78,7 +119,8 @@ header.top {
 }
 .brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .brand h1 {
-  font-size: 17px; letter-spacing: .16em; margin: 0; font-weight: 700;
+  font-family: var(--mono);
+  font-size: 16px; letter-spacing: .22em; margin: 0; font-weight: 600;
 }
 .brand h1 .dot { color: var(--series-1); }
 .brand .tagline { color: var(--text-3); font-size: 11.5px; letter-spacing: .02em; }
@@ -86,7 +128,8 @@ header.top {
 
 .badge {
   display: inline-flex; align-items: center; gap: 5px;
-  font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase;
+  font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
   padding: 3px 8px; border-radius: 999px; border: 1px solid var(--border);
   color: var(--text-2); background: var(--surface-2); white-space: nowrap;
 }
@@ -101,7 +144,8 @@ header.top {
 
 nav.tabs { display: flex; gap: 2px; margin-top: 10px; overflow-x: auto; }
 nav.tabs a {
-  padding: 9px 14px 10px; font-size: 12px; letter-spacing: .12em; font-weight: 600;
+  font-family: var(--mono);
+  padding: 9px 14px 10px; font-size: 12px; letter-spacing: .14em; font-weight: 500;
   color: var(--text-3); border-bottom: 2px solid transparent; white-space: nowrap;
 }
 nav.tabs a.active { color: var(--text-1); border-bottom-color: var(--series-1); }
@@ -121,13 +165,22 @@ nav.tabs a:hover { color: var(--text-2); }
 @media (max-width: 560px) { .grid.c2, .grid.c3, .grid.c4 { grid-template-columns: 1fr; } }
 
 h2.section {
-  font-size: 12px; letter-spacing: .16em; color: var(--text-3);
+  font-size: 12px; letter-spacing: .14em; color: var(--text-3);
   text-transform: uppercase; margin: 26px 0 10px; font-weight: 700;
 }
 h2.section:first-child { margin-top: 6px; }
 .sub { color: var(--text-2); font-size: 12.5px; }
 .muted { color: var(--text-3); }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.kv dd, .bar-row .val, .score-big, table.data td.num { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+a:focus-visible, button:focus-visible, select:focus-visible,
+input:focus-visible, tr:focus-visible {
+  outline: 2px solid var(--series-1); outline-offset: 2px; border-radius: 4px;
+}
 .nowrap { white-space: nowrap; }
 
 .notice {
@@ -152,14 +205,14 @@ h2.section:first-child { margin-top: 6px; }
   font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1;
   letter-spacing: -.02em;
 }
-.score-cap { font-size: 10px; letter-spacing: .12em; color: var(--text-3); text-align: right; }
+.score-cap { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: var(--text-3); text-align: right; }
 
 .kv { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 12.5px; }
 .kv dt { color: var(--text-3); }
 .kv dd { margin: 0; text-align: right; font-family: var(--mono); }
 
 .pill {
-  display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+  display: inline-block; font-size: 10.5px; font-weight: 600; letter-spacing: .04em;
   padding: 2px 7px; border-radius: 5px; border: 1px solid var(--border);
   color: var(--text-2);
 }
@@ -196,7 +249,8 @@ table.data { width: 100%; border-collapse: collapse; font-size: 12.5px; min-widt
 table.data th { white-space: nowrap; }
 table.data th, table.data td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border-soft); }
 table.data th {
-  font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase;
+  font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
   color: var(--text-3); font-weight: 700; position: sticky; top: 0; background: var(--surface-1);
 }
 table.data td.num, table.data th.num { text-align: right; font-family: var(--mono); }

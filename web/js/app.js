@@ -82,10 +82,15 @@ function route() {
 window.addEventListener('hashchange', route);
 
 $('#themebtn').addEventListener('click', () => {
-  const cur = document.documentElement.getAttribute('data-theme');
-  const next = cur === 'dark' ? 'light' : 'dark';
+  // スタンプが無い状態（OS設定に従っている）から押されたら、
+  // 「いま見えている側の逆」へ切り替える。
+  const stamp = document.documentElement.getAttribute('data-theme');
+  const effective = stamp
+    || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  const next = effective === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   try { localStorage.setItem('value-radar-ai/theme', next); } catch { /* noop */ }
+  if (window.__VR) route();   // チャートの配色はJS側で決めているため再描画する
 });
 try {
   const saved = localStorage.getItem('value-radar-ai/theme');

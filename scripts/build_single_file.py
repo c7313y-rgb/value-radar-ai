@@ -53,7 +53,7 @@ def build(artifact: bool = False) -> Path:
     # index.html の <body> 内側だけを取り出す
     body = html.split("<body>", 1)[1].split("</body>", 1)[0]
     body = re.sub(r'<script type="module"[^>]*></script>', "", body)
-    body = body.replace('<link rel="stylesheet" href="web/style.css">', "")
+    body = re.sub(r'<link rel="(preconnect|stylesheet)"[^>]*>', "", body)
 
     # アプリ本体が起動時に「デモデータ」バナーを出すので、ここでは重ねない。
 
@@ -65,6 +65,13 @@ def build(artifact: bool = False) -> Path:
         + ";</script>"
     )
 
+    font_link = (
+        '<link rel="preconnect" href="https://fonts.googleapis.com">'
+        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2'
+        '?family=IBM+Plex+Mono:wght@400;500;600&display=swap">'
+    )
+
     title = "VALUE RADAR AI"
     head_meta = (
         '<meta name="description" content="世界の企業価値と未来需要を毎日再評価するAI投資委員会（デモ）">'
@@ -74,14 +81,14 @@ def build(artifact: bool = False) -> Path:
     out_dir.mkdir(exist_ok=True)
 
     if artifact:
-        doc = (f"<title>{title}</title>\n<style>\n{css}\n</style>\n"
+        doc = (f"<title>{title}</title>\n{font_link}\n<style>\n{css}\n</style>\n"
                f"{body}\n{inline}\n<script>\n{js}\n</script>\n")
         out = out_dir / "artifact.html"
     else:
-        doc = ("<!doctype html>\n<html lang=\"ja\" data-theme=\"dark\">\n<head>\n"
+        doc = ("<!doctype html>\n<html lang=\"ja\">\n<head>\n"
                "<meta charset=\"utf-8\">\n"
                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
-               f"<title>{title}</title>\n{head_meta}\n<style>\n{css}\n</style>\n"
+               f"<title>{title}</title>\n{head_meta}\n{font_link}\n<style>\n{css}\n</style>\n"
                f"</head>\n<body>\n{body}\n{inline}\n<script>\n{js}\n</script>\n</body>\n</html>\n")
         out = out_dir / "value-radar-ai.html"
 

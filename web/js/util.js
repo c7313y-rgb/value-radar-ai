@@ -43,11 +43,22 @@ export function toJPY(amount, currency, rates) {
 
 export function stars(n) { return '★'.repeat(n) + '☆'.repeat(5 - n); }
 
-// 値の大きさを sequential blue ramp の1色に写す（順序尺度・大きいほど濃い）
-const SEQ = ['#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95'];
+// 値の大きさを青の単一色相ランプに写す（順序尺度・大きいほど濃い）。
+// 明暗それぞれの地色に対して 2:1 以上のコントラストを保つよう、段を選び分ける。
+const SEQ_DARK  = ['#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95'];
+const SEQ_LIGHT = ['#86b6ef', '#6da7ec', '#5598e7', '#2a78d6', '#256abf', '#184f95'];
+
+export function isLightTheme() {
+  const stamp = document.documentElement.getAttribute('data-theme');
+  if (stamp === 'light') return true;
+  if (stamp === 'dark') return false;
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+}
+
 export function seqColor(v, lo = 0, hi = 100) {
+  const ramp = isLightTheme() ? SEQ_LIGHT : SEQ_DARK;
   const t = Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
-  return SEQ[Math.min(SEQ.length - 1, Math.floor(t * SEQ.length))];
+  return ramp[Math.min(ramp.length - 1, Math.floor(t * ramp.length))];
 }
 
 export function gradeColor(g) {
