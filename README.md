@@ -364,3 +364,16 @@ python3 -m unittest discover -s tests -v     # 60テスト・依存なし
 ## ライセンス
 
 MIT
+
+---
+
+## 付録：単一HTMLファイル版
+
+サーバも依存も不要な1枚のHTMLを生成できます（配布・オフライン閲覧用）。
+
+```bash
+python3 scripts/build_single_file.py      # → dist/value-radar-ai.html
+```
+
+CSS・JS・その日のデータをすべて埋め込むため約1MBになります。
+`data/latest.json` を更新したら作り直してください。

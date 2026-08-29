@@ -134,14 +134,25 @@ def build_theme_guide(node_id: str, rows: List[dict], node_state: Dict[str, dict
 
 
 def build_all_guides(rows: List[dict], node_state: Dict[str, dict],
-                     opp_rows: List[dict], as_of: str, limit: int = 8) -> List[dict]:
+                     opp_rows: List[dict], as_of: str, limit: int = 30,
+                     min_members: int = 2) -> List[dict]:
+    """
+    未織り込みギャップ順に、該当企業が min_members 社以上あるノードのガイドを作る。
+    需要マップのノードをクリックして「ガイドがない」に当たる確率を下げるため、
+    ドライバー以外のノードもできる限り網羅する。
+    """
     opp = {o["id"]: o for o in opp_rows}
+    seen = {o["id"] for o in opp_rows}
+    order = [o["id"] for o in opp_rows] + [n for n in node_state if n not in seen]
+
     guides = []
-    for o in opp_rows:
+    for nid in order:
         if len(guides) >= limit:
             break
-        members = [r for r in rows if r["nodes"].get(o["id"], 0) > 0]
-        if len(members) < 3:
+        if node_state.get(nid, {}).get("is_driver"):
             continue
-        guides.append(build_theme_guide(o["id"], rows, node_state, opp, as_of))
+        members = [r for r in rows if r["nodes"].get(nid, 0) > 0]
+        if len(members) < min_members:
+            continue
+        guides.append(build_theme_guide(nid, rows, node_state, opp, as_of))
     return guides

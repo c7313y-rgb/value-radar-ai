@@ -291,10 +291,7 @@ export function viewThemeGuide(nodeId) {
   const guide = DB.guides.find(g => g.node === nodeId);
   const root = el('div', {});
   root.append(el('a', { href: '#/trends', class: 'muted', style: 'font-size:12px' }, '← 需要マップへ戻る'));
-  if (!guide) {
-    root.append(el('div', { class: 'card' }, 'このテーマのガイドは生成されていません（該当企業が3社未満）。'));
-    return root;
-  }
+  if (!guide) return themeFallback(root, nodeId);
   const rates = DB.meta.fx_rates_jpy;
 
   root.append(el('div', { class: 'card', style: 'margin-top:10px' },
@@ -374,6 +371,57 @@ export function viewThemeGuide(nodeId) {
     el('div', { class: 'card caution' },
       el('div', { style: 'margin-bottom:4px' }, el('strong', {}, '注意点')),
       el('ul', { class: 'points' }, guide.cautions.map(p => el('li', {}, p))))));
+  return root;
+}
+
+/** ガイド生成の対象外（該当企業が少ない）ノード向けの簡易ビュー。行き止まりを作らない。 */
+function themeFallback(root, nodeId) {
+  const n = DB.nodes.find(x => x.id === nodeId);
+  const o = DB.opportunities.find(x => x.id === nodeId);
+  if (!n) {
+    root.append(el('div', { class: 'card', style: 'margin-top:10px' }, '該当する需要テーマが見つかりません。'));
+    return root;
+  }
+  const members = DB.rows.filter(r => r.nodes[nodeId] > 0)
+    .sort((a, b) => b.nodes[nodeId] - a.nodes[nodeId]);
+
+  root.append(el('div', { class: 'card', style: 'margin-top:10px' },
+    el('div', { class: 'guide-head' },
+      el('h3', {}, n.label),
+      el('div', { class: 'sub' }, n.desc)),
+    el('div', { class: 'grid c3', style: 'margin-top:14px' },
+      meter(n.pressure, 100, '需要圧力', seqColor(n.pressure, 40, 90)),
+      meter(n.evidence, 100, '実需エビデンス', 'var(--seq-400)'),
+      o ? meter(Math.max(0, o.priced_in), 100, '株価の織り込み度', 'var(--neutral)')
+        : el('div', { class: 'muted', style: 'font-size:12px' }, '織り込み度は算出対象外（該当企業が少数）')),
+    el('div', { class: 'sub', style: 'margin-top:12px' },
+      `3ヶ月変化 ${n.momentum >= 0 ? '+' : ''}${n.momentum}pt ／ 上流からの流入 ${n.inflow >= 0 ? '+' : ''}${n.inflow}`)));
+
+  root.append(el('h2', { class: 'section' },
+    members.length ? `このテーマに露出する銘柄（${members.length}社）`
+                   : 'このテーマに露出する銘柄はユニバース内にありません'));
+  if (members.length) {
+    const t = el('table', { class: 'data' });
+    t.append(el('thead', {}, el('tr', {},
+      el('th', {}, '銘柄'), el('th', { class: 'num' }, '露出度'),
+      el('th', { class: 'num' }, '最終点'), el('th', {}, '企業/価格'),
+      el('th', { class: 'num' }, '最低購入額'), el('th', {}, '判定'))));
+    const rates = DB.meta.fx_rates_jpy;
+    const tb = el('tbody', {});
+    members.forEach(r => tb.append(el('tr', { onclick: () => go(`#/stock/${encodeURIComponent(r.ticker)}`) },
+      el('td', {}, el('div', {}, r.name), el('div', { class: 'muted', style: 'font-size:11px' }, `${r.ticker}・${r.industry}`)),
+      el('td', { class: 'num' }, `${(r.nodes[nodeId] * 100).toFixed(0)}%`),
+      el('td', { class: 'num' }, r.final_score.toFixed(1)),
+      el('td', { class: 'nowrap' }, gradePill(r.company_grade, '企'), ' ', gradePill(r.price_grade, '価')),
+      el('td', { class: 'num' }, fmt.man(toJPY(r.min_investment, r.currency, rates))),
+      el('td', { class: `verdict v-${r.verdict}` }, r.verdict_label))));
+    t.append(tb);
+    root.append(el('div', { class: 'card' }, el('div', { class: 'table-wrap' }, t)));
+    root.append(el('div', { class: 'notice' },
+      el('strong', {}, '比較表は未生成　'),
+      `このテーマに露出する銘柄がユニバース内に${members.length}社しかないため、TOP5比較表と予算別購入例は作成していません。`
+      + '銘柄が2社未満の比較は分散の判断材料にならないためです。'));
+  }
   return root;
 }
 
