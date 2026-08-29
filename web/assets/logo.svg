@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="VALUE RADAR AI">
+  <title>VALUE RADAR AI</title>
+  <defs>
+    <linearGradient id="sweep" x1="256" y1="256" x2="446" y2="140" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3987e5" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#3987e5" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="blip" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#f0b53c"/>
+      <stop offset=".45" stop-color="#c98500"/>
+      <stop offset="1" stop-color="#c98500" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- レーダーの掃引 -->
+  <path d="M256 256 L446 140 A220 220 0 0 1 462 256 Z" fill="url(#sweep)"/>
+
+  <!-- 同心円：外側ほど淡く。二次・三次と外へ広がる需要連鎖の比喩 -->
+  <circle cx="256" cy="256" r="206" fill="none" stroke="#2a78d6" stroke-opacity=".38" stroke-width="9"/>
+  <circle cx="256" cy="256" r="152" fill="none" stroke="#2a78d6" stroke-opacity=".62" stroke-width="10"/>
+  <circle cx="256" cy="256" r="98"  fill="none" stroke="#2a78d6" stroke-opacity=".85" stroke-width="11"/>
+  <circle cx="256" cy="256" r="46"  fill="none" stroke="#2a78d6" stroke-width="12"/>
+
+  <!-- 十字の目盛り（計器盤の顔つき） -->
+  <g stroke="#2a78d6" stroke-opacity=".30" stroke-width="6" stroke-linecap="round">
+    <path d="M256 26 v34"/><path d="M256 452 v34"/>
+    <path d="M26 256 h34"/><path d="M452 256 h34"/>
+  </g>
+
+  <!-- 中心 -->
+  <circle cx="256" cy="256" r="15" fill="#2a78d6"/>
+
+  <!-- 検知した1銘柄＝金のブリップ -->
+  <circle cx="378" cy="150" r="54" fill="url(#blip)" opacity=".55"/>
+  <circle cx="378" cy="150" r="27" fill="#c98500"/>
+  <circle cx="378" cy="150" r="27" fill="none" stroke="#f0b53c" stroke-width="4"/>
+</svg>

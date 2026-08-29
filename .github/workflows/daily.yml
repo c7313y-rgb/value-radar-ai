@@ -79,13 +79,23 @@ jobs:
               labels: ['daily-alert'],
             });
 
-      - name: 結果をコミット
+      # latest.json は約900KBあり、毎日コミットするとリポジトリが年300MB超で膨らむ。
+      # そのため履歴・推移・アラート（いずれも小さい）だけをコミットし、
+      # 当日の latest.json は成果物として Pages ジョブへ受け渡す。
+      - name: 履歴とアラートのみコミット
         run: |
           git config user.name "value-radar-bot"
           git config user.email "actions@github.com"
-          git add data/
+          git add data/history data/series.json data/alerts.json
           git diff --staged --quiet || git commit -m "chore(data): 日次再評価 $(date -u +%F)"
           git push
+
+      - name: 当日データを成果物として受け渡す
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-data
+          path: data/
+          retention-days: 7
 
   deploy-pages:
     needs: scan
@@ -96,6 +106,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { ref: main }
+      - name: 当日データを取り込む
+        uses: actions/download-artifact@v4
+        with:
+          name: daily-data
+          path: data
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with: { path: "." }

@@ -13,6 +13,7 @@ CSS・JS・データをすべて1枚のHTMLに埋め込む。
 """
 from __future__ import annotations
 import argparse
+import base64
 import json
 import re
 from pathlib import Path
@@ -29,6 +30,21 @@ def strip_module_syntax(src: str) -> str:
     src = IMPORT_RE.sub("", src)
     src = re.sub(r"^export\s+(?=(const|let|var|function|class|async))", "", src, flags=re.M)
     return src
+
+
+
+ASSET_RE = re.compile(r"web/assets/[\w\-.]+")
+
+
+def inline_assets(text: str) -> str:
+    """web/assets/ への参照を data URI に置き換える（単一ファイル配布用）。"""
+    def repl(m: re.Match) -> str:
+        ap = ROOT / m.group(0)
+        if not ap.exists():
+            return m.group(0)
+        mime = "image/jpeg" if ap.suffix.lower() in (".jpg", ".jpeg") else "image/png"
+        return "data:" + mime + ";base64," + base64.b64encode(ap.read_bytes()).decode()
+    return ASSET_RE.sub(repl, text)
 
 
 def build(artifact: bool = False) -> Path:
@@ -48,12 +64,13 @@ def build(artifact: bool = False) -> Path:
             src = src.replace("new URL('../../data/latest.json', import.meta.url)", "''")
             src = src.replace("new URL('../../data/series.json', import.meta.url)", "''")
         parts.append(f"/* ---- {m} ---- */\n{src}")
-    js = "\n".join(parts)
+    js = inline_assets("\n".join(parts))
 
     # index.html の <body> 内側だけを取り出す
     body = html.split("<body>", 1)[1].split("</body>", 1)[0]
     body = re.sub(r'<script type="module"[^>]*></script>', "", body)
     body = re.sub(r'<link rel="(preconnect|stylesheet)"[^>]*>', "", body)
+    body = inline_assets(body)
 
     # アプリ本体が起動時に「デモデータ」バナーを出すので、ここでは重ねない。
 

@@ -8,3 +8,5 @@ logs/
 .vscode/
 node_modules/
 dist/
+.pytest_cache/
+.DS_Store

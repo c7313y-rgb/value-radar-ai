@@ -317,3 +317,72 @@ footer.foot {
   color: var(--text-3); font-size: 11.5px;
 }
 .skip { position: absolute; left: -9999px; }
+
+
+/* ---------------- 画面見出し ----------------
+ * hero-band  : 文字だけの帯。テーマトークンで組むので明暗どちらでも成立する。
+ * hero-image : 説明に役立つ図版を敷く場合のみ。図版の上に暗い被せを置き、
+ *              その上の文字は被せに対して固定色で読ませる（明暗共通）。
+ */
+.hero {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-band {
+  background: linear-gradient(100deg,
+              color-mix(in srgb, var(--series-1) 12%, var(--surface-1)) 0%,
+              var(--surface-1) 62%);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--series-1);
+}
+.hero-band .hero-overlay { padding: 18px 22px 19px; }
+.hero-band .hero-kicker { color: var(--series-1); }
+.hero-band .hero-title { color: var(--text-1); text-shadow: none; }
+.hero-band .hero-sub { color: var(--text-2); }
+
+.hero-image {
+  margin: 0 0 18px;
+  min-height: 230px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--border);
+}
+.hero-image .hero-overlay {
+  padding: 44px 30px 26px;
+  /* 図版は暗い前提なので、被せと文字色はテーマに依らず固定する */
+  background: linear-gradient(180deg, rgba(9,11,24,.20) 0%, rgba(9,11,24,.68) 48%, rgba(9,11,24,.92) 100%);
+}
+.hero-image .hero-kicker { color: #e8c87e; text-shadow: 0 1px 8px rgba(0,0,0,.9); }
+.hero-image .hero-title { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.55); }
+.hero-image .hero-sub { color: rgba(255,255,255,.9); }
+
+.hero-overlay { width: 100%; }
+.hero-kicker {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .2em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-size: clamp(17px, 2.6vw, 23px);
+  font-weight: 700;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+.hero-sub {
+  font-size: 12.5px;
+  margin-top: 7px;
+  max-width: 68ch;
+  line-height: 1.75;
+}
+
+.brand-logo {
+  width: 26px; height: 26px;
+  flex: 0 0 auto;
+}

@@ -6,6 +6,25 @@ let DB = null;
 export function setDB(db) { DB = db; }
 const go = (h) => { location.hash = h; };
 
+// ---- 画面見出し ----
+// 画像を敷くのは、その画像が説明の役に立つ場合だけ（需要連鎖の図解）。
+// それ以外は文字だけの帯にする。自分の画面のスクリーンショットを
+// 自分の画面の上に重ねても情報が増えないため。
+const heroBand = (kicker, title, sub) =>
+  el('div', { class: 'hero hero-band' },
+    el('div', { class: 'hero-overlay' },
+      el('div', { class: 'hero-kicker' }, kicker),
+      el('div', { class: 'hero-title' }, title),
+      sub ? el('div', { class: 'hero-sub' }, sub) : null));
+
+const heroBanner = (img, kicker, title, sub, alt) =>
+  el('figure', { class: 'hero hero-image', style: `background-image:url('${img}')`,
+                 role: 'img', 'aria-label': alt || title },
+    el('div', { class: 'hero-overlay' },
+      el('div', { class: 'hero-kicker' }, kicker),
+      el('div', { class: 'hero-title' }, title),
+      sub ? el('div', { class: 'hero-sub' }, sub) : null));
+
 const gradePill = (g, label) =>
   el('span', { class: `pill g-${g}`, title: label }, `${label} ${g}`);
 
@@ -70,6 +89,11 @@ export function viewToday() {
   const root = el('div', {});
   const rows = DB.rows;
 
+  root.append(heroBand(
+    'VALUE RADAR AI — AI INVESTMENT COMMITTEE',
+    '毎朝、世界の企業価値を評価し直す。',
+    '8レイヤーの再評価と需要連鎖の分析結果を、根拠となる数値とともに開示します。'
+    + '売買を推奨するものではありません。'));
   root.append(el('h2', { class: 'section' }, `本日の投資候補 TOP10 — ${DB.meta.as_of}`));
   root.append(el('div', { class: 'sub', style: 'margin-bottom:12px' },
     `世界${DB.meta.universe_size}銘柄を8レイヤーで再評価し、需要連鎖の波及と価格の織り込み度で並べ替えた結果です。`
@@ -147,6 +171,10 @@ const F = { q: '', region: '', sector: '', verdict: '', node: '', sort: 'final_s
 
 export function viewDiscover() {
   const root = el('div', {});
+  root.append(heroBand(
+    'DISCOVER — GLOBAL SCREENING',
+    '世界の銘柄を、あなたの条件で絞り込む。',
+    '地域・セクター・予算・需要テーマで絞り込み、「良い会社」と「良い株価」を分けて確認できます。'));
   root.append(el('h2', { class: 'section' }, `世界株スクリーニング（${DB.meta.universe_size}銘柄）`));
 
   const regions = [...new Set(DB.rows.map(r => r.region))].sort();
@@ -242,6 +270,12 @@ export function viewTrends(nodeId) {
   const root = el('div', {});
   if (nodeId) return viewThemeGuide(nodeId);
 
+  root.append(heroBanner('web/assets/demand-chain.jpg',
+    'SECOND ORDER OPPORTUNITY ENGINE',
+    '一次需要から三次・四次需要までを辿る。',
+    '受注残・リードタイム・設備投資などの実需シグナルを Demand Evidence Score として数値化し、'
+    + '需要がどこへ波及するかの仮説を、伝播係数と遅れ月数とともに提示します。',
+    '生成AIから、GPU・データセンター・送配電網・発電設備・建設へと需要が波及する様子を示した概念図'));
   root.append(el('h2', { class: 'section' }, '需要マップ — 実需の連鎖と、まだ評価されていない場所'));
   root.append(el('div', { class: 'sub', style: 'margin-bottom:12px' },
     '「AIが流行っている」ではなく「DC建設増 → 電力設備発注増 → 変圧器リードタイム上昇 → 受注残増 → だが株価は未追随」まで辿ります。'
@@ -429,6 +463,10 @@ function themeFallback(root, nodeId) {
 export function viewStock(ticker) {
   const root = el('div', {});
   if (!ticker) {
+    root.append(heroBand(
+      'STOCK — DEEP DIVE',
+      '1銘柄を、6人のAIアナリストが別々の目的関数で評価。',
+      '割安度・企業品質・需要連鎖上の位置と、反対意見までを含めて根拠を開示します。'));
     root.append(el('h2', { class: 'section' }, '銘柄を選択してください'));
     const g = el('div', { class: 'grid c3' });
     DB.rows.slice(0, 12).forEach(r => g.append(el('div', {
@@ -619,6 +657,10 @@ export function viewPortfolio() {
   const root = el('div', {});
   const rates = DB.meta.fx_rates_jpy;
 
+  root.append(heroBand(
+    'PORTFOLIO — DIVERSIFICATION CHECK',
+    '予算に応じた分散案を、機械的に組み立てる。',
+    'スコアとリスクで加重した配分案と、保有株の集中度・地域偏り・テーマ偏りを可視化します。'));
   root.append(el('h2', { class: 'section' }, '予算別ポートフォリオ提案'));
   root.append(el('div', { class: 'sub', style: 'margin-bottom:12px' },
     '上位30銘柄から、スコアとリスクで加重して単元制約に合わせて割り付けた案です。'

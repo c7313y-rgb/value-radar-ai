@@ -52,6 +52,22 @@ provider と日付を指定して手動実行できます。
 | 確信度が一律に低い | `data_coverage` が低い。プロバイダの取得項目を増やす |
 | 予算プランが常に米国株 | `region_cap` を下げる（既定 0.70） |
 
+## 4.5. リポジトリを太らせないための運用
+
+`data/latest.json` は約900KBある。これを毎日コミットすると、
+git のオブジェクトが年間300MB以上増える（1日あたり約960KB）。
+
+そのため日次ワークフローは次のようにしてある。
+
+- **コミットするもの**：`data/history/*.json`（軽量版・1日約40KB）、`data/series.json`、`data/alerts.json`
+- **コミットしないもの**：`data/latest.json`
+  当日分はワークフロー成果物（artifact）として Pages ジョブへ受け渡し、配信物にだけ含める
+
+リポジトリに同梱されている `data/latest.json` は、clone 直後に
+`python3 -m http.server` だけで動かすための**シード**である。
+最新の評価が欲しい場合はローカルで `python3 -m engine.pipeline` を実行するか、
+GitHub Pages 側を参照すること。
+
 ## 5. パフォーマンス
 
 デモ82銘柄で全パイプラインが約0.15秒（標準ライブラリのみ、Python 3.11）。

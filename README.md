@@ -7,7 +7,10 @@
 > 位置づけ：**AI株価予想アプリ**ではなく、
 > **世界の企業価値と未来需要を毎日再評価するAI投資委員会**。
 
-<!-- スクリーンショットは docs/screenshots/ を参照 -->
+![VALUE RADAR AI — TODAY 画面](docs/screenshots/01-today.png)
+
+> **注意：** 既定のデータは実在企業名に紐づけて生成された**合成値（架空の数値）**です。
+> 実際の株価・財務ではありません。詳細は [DISCLAIMER.md](DISCLAIMER.md) を参照してください。
 
 ---
 
@@ -299,9 +302,13 @@ Bloomberg / LSEG / FactSet / S&P Capital IQ のフィールド対応表は同フ
 `.github/workflows/daily.yml` が **毎朝 06:30 JST** に実行され、
 
 1. 日次パイプラインを実行
-2. `data/latest.json` / `data/history/` / `data/series.json` / `data/alerts.json` を更新
+2. `data/history/` / `data/series.json` / `data/alerts.json` を更新してコミット
 3. **高重要度アラートがあれば Issue を自動作成**
-4. 変更をコミットし、GitHub Pages へ配信
+4. 当日の `data/latest.json` を成果物として受け渡し、GitHub Pages へ配信
+
+`latest.json`（約900KB）は毎日コミットするとリポジトリが年300MB超で膨らむため、
+コミットせず配信物にだけ含めています（詳細は [docs/OPERATIONS.md](docs/OPERATIONS.md)）。
+リポジトリ同梱の `latest.json` は clone 直後に動かすためのシードです。
 
 リポジトリ Settings → Pages を **GitHub Actions** に設定してください。
 プロバイダを切り替える場合は、リポジトリ変数 `VR_PROVIDER` とシークレット `VR_PREMIUM_KEY` を設定します。
@@ -367,6 +374,43 @@ MIT
 
 ---
 
+## 画面
+
+すべて実際の画面のスクリーンショットです（デモデータでの表示）。
+
+### TODAY — 本日の投資候補 TOP10
+![TODAY](docs/screenshots/01-today.png)
+
+### TRENDS — 需要マップ（一次 → 三次・四次需要）
+![TRENDS](docs/screenshots/02-trends.png)
+
+### テーマ別 投資ガイド
+需要ノードをクリックすると、そのテーマの比較表・購入検討価格帯・予算別購入例まで自動生成されます。
+
+![テーマ別投資ガイド](docs/screenshots/03-guide.png)
+
+### STOCK — スコアの分解とAI投資委員会
+![STOCK](docs/screenshots/04-stock.png)
+
+### DISCOVER — 世界株スクリーニング
+![DISCOVER](docs/screenshots/05-discover.png)
+
+### PORTFOLIO — 予算別プランと集中度分析
+![PORTFOLIO](docs/screenshots/06-portfolio.png)
+
+### 画像アセットについて
+
+| ファイル | 内容 |
+|---|---|
+| `web/assets/logo.svg` / `logo.png` / `logo-128.png` | ロゴ・favicon（同心円のレーダーと、検知した1銘柄を表す金のブリップ） |
+| `web/assets/demand-chain.jpg` | TRENDS 見出しの概念図。生成AI → GPU → データセンター → 送配電 → 発電 → 建設への波及を図解したイメージ画像 |
+| `docs/screenshots/*.png` | 実画面のスクリーンショット |
+
+TODAY / DISCOVER / STOCK / PORTFOLIO の見出しは、画像ではなくテーマトークンで組んだ文字帯です。
+自分の画面のスクリーンショットを自分の画面の上に重ねても情報が増えないため、意図的に画像を置いていません。
+
+---
+
 ## 付録：単一HTMLファイル版
 
 サーバも依存も不要な1枚のHTMLを生成できます（配布・オフライン閲覧用）。
@@ -375,5 +419,5 @@ MIT
 python3 scripts/build_single_file.py      # → dist/value-radar-ai.html
 ```
 
-CSS・JS・その日のデータをすべて埋め込むため約1MBになります。
+CSS・JS・画像・その日のデータをすべて埋め込むため約1.3MBになります。
 `data/latest.json` を更新したら作り直してください。
