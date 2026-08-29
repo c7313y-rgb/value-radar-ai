@@ -1,0 +1,197 @@
+{
+  "as_of": "2026-08-29",
+  "alerts": [
+    {
+      "type": "top10_in",
+      "severity": "high",
+      "ticker": "MSFT",
+      "name": "マイクロソフト",
+      "title": "マイクロソフト（MSFT）が TOP10 に新規参入",
+      "detail": "最終推奨点 56.4／順位 6位。需要テーマ「生成AI設備投資」の当事者。「生成AI設備投資」の需要圧力は 68／100。"
+    },
+    {
+      "type": "top10_in",
+      "severity": "high",
+      "ticker": "6503.T",
+      "name": "三菱電機",
+      "title": "三菱電機（6503.T）が TOP10 に新規参入",
+      "detail": "最終推奨点 52.5／順位 10位。労働力不足・省人化 → ロボティクス → ファクトリーオートメーション という需要連鎖の下流に位置する。「ファクトリーオートメーション」の需要圧力は 59／100、未織り込みギャップ +18。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "GOOGL",
+      "name": "アルファベット",
+      "title": "アルファベット（GOOGL）の投資判断が「検討候補」→「本日の有力候補」",
+      "detail": "同業ピア中央値PER 37倍に対し 31倍で相対的に割安、FCF利回り 3.0%。適正価値に対する上値余地は +68%（企業評価 S／価格評価 A）。"
+    },
+    {
+      "type": "price_grade_up",
+      "severity": "high",
+      "ticker": "GOOGL",
+      "name": "アルファベット",
+      "title": "アルファベット（GOOGL）の価格評価が B → A に改善",
+      "detail": "企業評価 S の銘柄が買える価格に近づいています（PER 31倍／上値余地 +68%）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "1982.T",
+      "name": "日比谷総合設備",
+      "title": "日比谷総合設備（1982.T）の投資判断が「監視」→「検討候補」",
+      "detail": "同業ピア中央値PER 20倍に対し 12倍で相対的に割安、FCF利回り 7.2%。適正価値に対する上値余地は +100%（企業評価 A／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "MSFT",
+      "name": "マイクロソフト",
+      "title": "マイクロソフト（MSFT）の投資判断が「良い会社・価格待ち」→「監視」",
+      "detail": "同業ピア中央値PER 53倍に対し 48倍で相対的に割安、FCF利回り 2.0%。適正価値に対する上値余地は +30%（企業評価 S／価格評価 B）。"
+    },
+    {
+      "type": "price_grade_up",
+      "severity": "high",
+      "ticker": "MSFT",
+      "name": "マイクロソフト",
+      "title": "マイクロソフト（MSFT）の価格評価が C → B に改善",
+      "detail": "企業評価 S の銘柄が買える価格に近づいています（PER 48倍／上値余地 +30%）。"
+    },
+    {
+      "type": "entry_zone",
+      "severity": "high",
+      "ticker": "MSFT",
+      "name": "マイクロソフト",
+      "title": "マイクロソフト（MSFT）が購入検討価格帯に入りました",
+      "detail": "現在 428.04 USD／検討帯 409.77〜455.30。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "6503.T",
+      "name": "三菱電機",
+      "title": "三菱電機（6503.T）の投資判断が「見送り」→「監視」",
+      "detail": "同業ピア中央値PER 20倍に対し 20倍で相対的に割安、FCF利回り 4.3%。適正価値に対する上値余地は +32%（企業評価 B／価格評価 B）。"
+    },
+    {
+      "type": "entry_zone",
+      "severity": "high",
+      "ticker": "6503.T",
+      "name": "三菱電機",
+      "title": "三菱電機（6503.T）が購入検討価格帯に入りました",
+      "detail": "現在 2,796.03 JPY／検討帯 2,725.00〜3,025.00。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "AMAT",
+      "name": "アプライド・マテリアルズ",
+      "title": "アプライド・マテリアルズ（AMAT）の投資判断が「見送り」→「監視」",
+      "detail": "同業ピア中央値PER 53倍に対し 30倍で相対的に割安、FCF利回り 3.0%。適正価値に対する上値余地は +83%（企業評価 B／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "MU",
+      "name": "マイクロン・テクノロジー",
+      "title": "マイクロン・テクノロジー（MU）の投資判断が「見送り」→「監視」",
+      "detail": "同業ピア中央値PER 53倍に対し 25倍で相対的に割安、FCF利回り 3.2%。適正価値に対する上値余地は +100%（企業評価 B／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "000660.KS",
+      "name": "SKハイニックス",
+      "title": "SKハイニックス（000660.KS）の投資判断が「見送り」→「監視」",
+      "detail": "同業ピア中央値PER 50倍に対し 24倍で相対的に割安、FCF利回り 3.4%。適正価値に対する上値余地は +100%（企業評価 B／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "KLAC",
+      "name": "KLA",
+      "title": "KLA（KLAC）の投資判断が「監視」→「見送り」",
+      "detail": "同業ピア中央値PER 53倍に対し 43倍で相対的に割安、FCF利回り 2.2%。適正価値に対する上値余地は +24%（企業評価 A／価格評価 B）。"
+    },
+    {
+      "type": "entry_zone",
+      "severity": "high",
+      "ticker": "6301.T",
+      "name": "小松製作所",
+      "title": "小松製作所（6301.T）が購入検討価格帯に入りました",
+      "detail": "現在 4,819.39 JPY／検討帯 4,495.00〜4,990.00。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "AMZN",
+      "name": "アマゾン・ドット・コム",
+      "title": "アマゾン・ドット・コム（AMZN）の投資判断が「見送り」→「良い会社・価格待ち」",
+      "detail": "同業ピア中央値PER 37倍に対し 56倍で相対的に割高、FCF利回り 1.6%。適正価値に対する上値余地は -17%（企業評価 A／価格評価 D）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "VRT",
+      "name": "バーティブ・ホールディングス",
+      "title": "バーティブ・ホールディングス（VRT）の投資判断が「見送り」→「良い会社・価格待ち」",
+      "detail": "同業ピア中央値PER 53倍に対し 57倍で相対的に割高、FCF利回り 1.5%。適正価値に対する上値余地は -4%（企業評価 A／価格評価 D）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "COST",
+      "name": "コストコ・ホールセール",
+      "title": "コストコ・ホールセール（COST）の投資判断が「見送り」→「良い会社・価格待ち」",
+      "detail": "同業ピア中央値PER 37倍に対し 75倍で相対的に割高、FCF利回り 1.2%。適正価値に対する上値余地は -42%（企業評価 A／価格評価 D）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "6920.T",
+      "name": "レーザーテック",
+      "title": "レーザーテック（6920.T）の投資判断が「良い会社・価格待ち」→「見送り」",
+      "detail": "同業ピア中央値PER 50倍に対し 79倍で相対的に割高、FCF利回り 1.1%。適正価値に対する上値余地は -35%（企業評価 B／価格評価 D）。"
+    },
+    {
+      "type": "top10_out",
+      "severity": "medium",
+      "ticker": "ETN",
+      "name": "イートン",
+      "title": "イートン（ETN）が TOP10 から脱落",
+      "detail": "現在 22位／最終推奨点 47.2。"
+    },
+    {
+      "type": "top10_out",
+      "severity": "medium",
+      "ticker": "6504.T",
+      "name": "富士電機",
+      "title": "富士電機（6504.T）が TOP10 から脱落",
+      "detail": "現在 13位／最終推奨点 51.4。"
+    },
+    {
+      "type": "score_jump",
+      "severity": "medium",
+      "ticker": "6503.T",
+      "name": "三菱電機",
+      "title": "三菱電機（6503.T）の最終推奨点が +6.4点",
+      "detail": "46.1 → 52.5。寄与の中心は 企業品質（+24.3）。"
+    },
+    {
+      "type": "score_jump",
+      "severity": "medium",
+      "ticker": "ETN",
+      "name": "イートン",
+      "title": "イートン（ETN）の最終推奨点が -6.2点",
+      "detail": "53.4 → 47.2。寄与の中心は 株価・需給（-9.3）。"
+    },
+    {
+      "type": "score_jump",
+      "severity": "medium",
+      "ticker": "6954.T",
+      "name": "ファナック",
+      "title": "ファナック（6954.T）の最終推奨点が -6.0点",
+      "detail": "47.9 → 41.9。寄与の中心は 成長（-38.7）。"
+    }
+  ]
+}

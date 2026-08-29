@@ -1,0 +1,103 @@
+name: daily-scan
+
+# 毎日の定期監視。
+# 06:30 JST（= 21:30 UTC 前日）に日次パイプラインを回し、
+# data/latest.json と履歴・アラートを更新してコミットし、GitHub Pages へ配信する。
+on:
+  schedule:
+    - cron: "30 21 * * *"      # UTC。日本時間 06:30
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: "データプロバイダ (demo / yfinance / premium)"
+        required: false
+        default: "demo"
+      date:
+        description: "対象日 (YYYY-MM-DD, 空なら当日)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 実データを使う場合のみ依存をインストール
+        if: ${{ (github.event.inputs.provider || vars.VR_PROVIDER || 'demo') != 'demo' }}
+        run: pip install -r requirements-live.txt
+
+      - name: パイプライン実行
+        env:
+          # リポジトリ変数 VR_PROVIDER / シークレット VR_PREMIUM_* を設定すれば
+          # コードを変更せずに有料データ層へ切り替わる。
+          VR_PROVIDER: ${{ github.event.inputs.provider || vars.VR_PROVIDER || 'demo' }}
+          VR_PREMIUM_VENDOR: ${{ vars.VR_PREMIUM_VENDOR }}
+          VR_PREMIUM_KEY: ${{ secrets.VR_PREMIUM_KEY }}
+          VR_PREMIUM_ENDPOINT: ${{ secrets.VR_PREMIUM_ENDPOINT }}
+          VR_LLM: ${{ vars.VR_LLM }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          DATE_ARG=""
+          if [ -n "${{ github.event.inputs.date }}" ]; then DATE_ARG="--date ${{ github.event.inputs.date }}"; fi
+          python -m engine.pipeline $DATE_ARG --fallback-demo | tee /tmp/run.log
+
+      - name: アラートをジョブサマリへ出力
+        run: |
+          echo "## VALUE RADAR AI — $(date -u +%F) の実行結果" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat /tmp/run.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: 高重要度アラートがあれば Issue を作成
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const a = JSON.parse(fs.readFileSync('data/alerts.json', 'utf8'));
+            const high = a.alerts.filter(x => x.severity === 'high');
+            if (!high.length) { core.info('高重要度アラートなし'); return; }
+            const body = high.map(x => `- **${x.title}**\n  ${x.detail || ''}`).join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title: `[VALUE RADAR] ${a.as_of} 要確認アラート ${high.length}件`,
+              body: `本日の再評価で以下の変化を検知しました。\n\n${body}\n\n---\n投資助言ではありません。`,
+              labels: ['daily-alert'],
+            });
+
+      - name: 結果をコミット
+        run: |
+          git config user.name "value-radar-bot"
+          git config user.email "actions@github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "chore(data): 日次再評価 $(date -u +%F)"
+          git push
+
+  deploy-pages:
+    needs: scan
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: "." }
+      - id: deployment
+        uses: actions/deploy-pages@v4
