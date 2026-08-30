@@ -1,4 +1,157 @@
 {
-  "as_of": "2026-08-29",
-  "alerts": []
+  "as_of": "2026-08-30",
+  "alerts": [
+    {
+      "type": "top10_in",
+      "severity": "high",
+      "ticker": "6504.T",
+      "name": "富士電機",
+      "title": "富士電機（6504.T）が TOP10 に新規参入",
+      "detail": "最終推奨点 52.1／順位 9位。生成AI設備投資 → データセンター建設 → DC電力設備 → UPS・配電盤 → パワー半導体 という需要連鎖の下流に位置する。「UPS・配電盤」の需要圧力は 67／100、未織り込みギャップ +13。"
+    },
+    {
+      "type": "top10_in",
+      "severity": "high",
+      "ticker": "ANET",
+      "name": "アリスタネットワークス",
+      "title": "アリスタネットワークス（ANET）が TOP10 に新規参入",
+      "detail": "最終推奨点 51.7／順位 10位。生成AI設備投資 → データセンター建設 → ネットワーク機器 という需要連鎖の下流に位置する。「ネットワーク機器」の需要圧力は 67／100、未織り込みギャップ +8。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "GOOGL",
+      "name": "アルファベット",
+      "title": "アルファベット（GOOGL）の投資判断が「本日の有力候補」→「検討候補」",
+      "detail": "同業ピア中央値PER 37倍に対し 31倍で相対的に割安、FCF利回り 3.0%。適正価値に対する上値余地は +57%（企業評価 S／価格評価 B）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "1982.T",
+      "name": "日比谷総合設備",
+      "title": "日比谷総合設備（1982.T）の投資判断が「検討候補」→「監視」",
+      "detail": "同業ピア中央値PER 20倍に対し 12倍で相対的に割安、FCF利回り 7.2%。適正価値に対する上値余地は +93%（企業評価 B／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "KLAC",
+      "name": "KLA",
+      "title": "KLA（KLAC）の投資判断が「見送り」→「監視」",
+      "detail": "同業ピア中央値PER 53倍に対し 43倍で相対的に割安、FCF利回り 2.2%。適正価値に対する上値余地は +39%（企業評価 A／価格評価 A）。"
+    },
+    {
+      "type": "price_grade_up",
+      "severity": "high",
+      "ticker": "KLAC",
+      "name": "KLA",
+      "title": "KLA（KLAC）の価格評価が B → A に改善",
+      "detail": "企業評価 A の銘柄が買える価格に近づいています（PER 43倍／上値余地 +39%）。"
+    },
+    {
+      "type": "entry_zone",
+      "severity": "high",
+      "ticker": "KLAC",
+      "name": "KLA",
+      "title": "KLA（KLAC）が購入検討価格帯に入りました",
+      "detail": "現在 945.18 USD／検討帯 879.02〜973.54。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "LRCX",
+      "name": "ラムリサーチ",
+      "title": "ラムリサーチ（LRCX）の投資判断が「見送り」→「監視」",
+      "detail": "同業ピア中央値PER 53倍に対し 36倍で相対的に割安、FCF利回り 2.5%。適正価値に対する上値余地は +59%（企業評価 A／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "NOVN.SW",
+      "name": "ノバルティス",
+      "title": "ノバルティス（NOVN.SW）の投資判断が「見送り」→「監視」",
+      "detail": "同業ピア中央値PER 37倍に対し 19倍で相対的に割安、FCF利回り 4.8%。適正価値に対する上値余地は +84%（企業評価 C／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "000660.KS",
+      "name": "SKハイニックス",
+      "title": "SKハイニックス（000660.KS）の投資判断が「監視」→「見送り」",
+      "detail": "同業ピア中央値PER 50倍に対し 24倍で相対的に割安、FCF利回り 3.4%。適正価値に対する上値余地は +100%（企業評価 B／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "AMAT",
+      "name": "アプライド・マテリアルズ",
+      "title": "アプライド・マテリアルズ（AMAT）の投資判断が「監視」→「見送り」",
+      "detail": "同業ピア中央値PER 53倍に対し 29倍で相対的に割安、FCF利回り 3.0%。適正価値に対する上値余地は +77%（企業評価 B／価格評価 S）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "6506.T",
+      "name": "安川電機",
+      "title": "安川電機（6506.T）の投資判断が「良い会社・価格待ち」→「見送り」",
+      "detail": "同業ピア中央値PER 20倍に対し 39倍で相対的に割高、FCF利回り 2.2%。適正価値に対する上値余地は -43%（企業評価 B／価格評価 D）。"
+    },
+    {
+      "type": "verdict_change",
+      "severity": "high",
+      "ticker": "VRT",
+      "name": "バーティブ・ホールディングス",
+      "title": "バーティブ・ホールディングス（VRT）の投資判断が「良い会社・価格待ち」→「見送り」",
+      "detail": "同業ピア中央値PER 54倍に対し 57倍で相対的に割高、FCF利回り 1.5%。適正価値に対する上値余地は -10%（企業評価 B／価格評価 D）。"
+    },
+    {
+      "type": "entry_zone",
+      "severity": "high",
+      "ticker": "1801.T",
+      "name": "大成建設",
+      "title": "大成建設（1801.T）が購入検討価格帯に入りました",
+      "detail": "現在 7,946.03 JPY／検討帯 7,585.00〜8,430.00。"
+    },
+    {
+      "type": "top10_out",
+      "severity": "medium",
+      "ticker": "META",
+      "name": "メタ・プラットフォームズ",
+      "title": "メタ・プラットフォームズ（META）が TOP10 から脱落",
+      "detail": "現在 12位／最終推奨点 51.4。"
+    },
+    {
+      "type": "top10_out",
+      "severity": "medium",
+      "ticker": "6501.T",
+      "name": "日立製作所",
+      "title": "日立製作所（6501.T）が TOP10 から脱落",
+      "detail": "現在 11位／最終推奨点 51.4。"
+    },
+    {
+      "type": "score_jump",
+      "severity": "medium",
+      "ticker": "KLAC",
+      "name": "KLA",
+      "title": "KLA（KLAC）の最終推奨点が +6.2点",
+      "detail": "44.7 → 50.9。寄与の中心は 成長（+26.3）。"
+    },
+    {
+      "type": "score_jump",
+      "severity": "medium",
+      "ticker": "005930.KS",
+      "name": "サムスン電子",
+      "title": "サムスン電子（005930.KS）の最終推奨点が -6.7点",
+      "detail": "45.6 → 38.9。寄与の中心は 成長（-39.1）。"
+    },
+    {
+      "type": "score_jump",
+      "severity": "medium",
+      "ticker": "SAP.DE",
+      "name": "SAP",
+      "title": "SAP（SAP.DE）の最終推奨点が -8.4点",
+      "detail": "42.4 → 34.0。寄与の中心は 成長（-32.5）。"
+    }
+  ]
 }
